@@ -46,6 +46,4 @@ RUN chmod -R 775 /data
 
 ADD rootfs /
 
-EXPOSE 80
-
 CMD ["/init"]

@@ -11,12 +11,12 @@ RUN mkdir -p /data/logs
 
 RUN buildDeps=" \
      libssl-dev \
+     libfreetype6-dev \
+     libjpeg62-turbo-dev \
+     libmcrypt-dev \
+     libpng12-dev \
  " \
  otherDeps=" \
-    libfreetype6-dev \
-    libjpeg62-turbo-dev \
-    libmcrypt-dev \
-    libpng12-dev \
     git \
     pdftk \
     ca-certificates \
@@ -29,8 +29,8 @@ RUN buildDeps=" \
  && mkdir -p /usr/src/php/ext/mongo \
  && tar -xzC /usr/src/php/ext/mongo --strip-components=1 -f mongo.tar.gz \
  && rm mongo.tar.gz* \
- && docker-php-ext-install mongo iconv mcrypt gd \
  && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+ && docker-php-ext-install mongo iconv mcrypt bcmath mbstring pdo pdo_mysql zip tokenizer gd \
  && DEBIAN_FRONTEND=noninteractive apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $buildDeps \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -41,4 +41,4 @@ ADD rootfs /
 
 EXPOSE 80
 
-ENTRYPOINT ["/init"]
+CMD ["/init"]

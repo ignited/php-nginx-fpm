@@ -9,14 +9,12 @@ RUN echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/a
 
 RUN mkdir -p /data/logs
 
-RUN buildDeps=" \
-     libssl-dev \
-     libfreetype6-dev \
-     libjpeg62-turbo-dev \
-     libmcrypt-dev \
-     libpng12-dev \
- " \
- otherDeps=" \
+RUN packages=" \
+    libssl-dev \
+    libmcrypt-dev \
+    libpng12-dev \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
     git \
     pdftk \
     ca-certificates \
@@ -24,20 +22,23 @@ RUN buildDeps=" \
  " \
  && set -x \
  && DEBIAN_FRONTEND=noninteractive apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y $buildDeps $otherDeps  --no-install-recommends \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y $packages --no-install-recommends \
  && curl -SL "http://pecl.php.net/get/mongo-$PECL_MONGO_VERSION.tgz" -o mongo.tar.gz \
  && mkdir -p /usr/src/php/ext/mongo \
  && tar -xzC /usr/src/php/ext/mongo --strip-components=1 -f mongo.tar.gz \
  && rm mongo.tar.gz* \
- && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
- && docker-php-ext-install mongo iconv mcrypt bcmath mbstring pdo pdo_mysql zip tokenizer gd \
- && DEBIAN_FRONTEND=noninteractive apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $buildDeps \
+ && DEBIAN_FRONTEND=noninteractive apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-install mongo iconv mcrypt bcmath mbstring pdo pdo_mysql zip tokenizer gd
 
 ADD https://github.com/just-containers/s6-overlay/releases/download/v1.11.0.1/s6-overlay-amd64.tar.gz /tmp/
 RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C /
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+WORKDIR /data/www
 
 ADD rootfs /
 

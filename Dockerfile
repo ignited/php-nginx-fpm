@@ -40,6 +40,10 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 WORKDIR /data/www
 
+RUN chgrp -R www-data /data
+RUN chmod -R o+w /data
+RUN chmod -R 775 /data
+
 ADD rootfs /
 
 EXPOSE 80

@@ -2,6 +2,8 @@ FROM php:5.6-fpm
 
 ENV PECL_MONGO_VERSION 1.6.11
 
+RUN mkdir -p /data/logs
+
 RUN buildDeps=" \
      libssl-dev \
  " \

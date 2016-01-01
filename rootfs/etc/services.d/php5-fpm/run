@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+exec /usr/sbin/php5-fpm --nodaemonize -e

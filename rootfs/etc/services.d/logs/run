@@ -6,4 +6,4 @@ touch /data/logs/application.log
 chgrp www-data /data/logs/*
 chmod 775 /data/logs/*
 
-exec tail -qF /data/logs/access.log /data/logs/error.log /data/logs/application.log
+exec tail -qF ---disable-inotify /data/logs/access.log /data/logs/error.log /data/logs/application.log

@@ -8,7 +8,8 @@ dependencies:
     - eval $(aws ecr get-login)
 
   override:
-    - docker pull 034025678482.dkr.ecr.us-west-2.amazonaws.com/php-nginx-fpm:latest || true
+    - docker pull 034025678482.dkr.ecr.us-west-2.amazonaws.com/php-nginx-fpm:php5.6 || true
+    - docker pull 034025678482.dkr.ecr.us-west-2.amazonaws.com/php-nginx-fpm:php7.0 || true
 
 test:
   override:

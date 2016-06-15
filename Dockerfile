@@ -1,5 +1,7 @@
 FROM php:5.6-fpm
 
+ENV DEBIAN_FRONTEND noninteractive
+
 ENV NGINX_VERSION 1.9.9-1~jessie
 
 ENV PECL_MONGO_VERSION 1.6.11
@@ -41,7 +43,13 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
 ADD https://github.com/just-containers/s6-overlay/releases/download/v1.11.0.1/s6-overlay-amd64.tar.gz /tmp/
 RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C /
 
+ENV COMPOSER_VERSION 1.11.1
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+RUN curl -sL https://download.newrelic.com/548C16BF.gpg | apt-key add - && \
+    echo "deb http://apt.newrelic.com/debian/ newrelic non-free" > /etc/apt/sources.list.d/newrelic.list
+
+RUN apt-get update; apt-get install -yq wget newrelic-php5 && apt-get clean
 
 WORKDIR /data/www
 

@@ -1,0 +1,23 @@
+machine:
+  services:
+    - docker
+
+dependencies:
+  pre:
+    - aws configure set default.region us-west-2
+    - eval $(aws ecr get-login)
+
+  override:
+    - docker pull 034025678482.dkr.ecr.us-west-2.amazonaws.com/php-nginx-fpm:latest || true
+
+test:
+  override:
+    - docker build -t 034025678482.dkr.ecr.us-west-2.amazonaws.com/php-nginx-fpm:latest .
+
+deployment:
+  prod:
+    branch: master
+    commands:
+      - docker tag 034025678482.dkr.ecr.us-west-2.amazonaws.com/php-nginx-fpm:latest 034025678482.dkr.ecr.us-west-2.amazonaws.com/php-nginx-fpm:$CIRCLE_TAG
+      - docker push 034025678482.dkr.ecr.us-west-2.amazonaws.com/php-nginx-fpm:$CIRCLE_TAG
+      - docker push 034025678482.dkr.ecr.us-west-2.amazonaws.com/php-nginx-fpm:latest

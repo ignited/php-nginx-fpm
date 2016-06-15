@@ -13,8 +13,8 @@ dependencies:
 
 test:
   override:
-    - docker build -t 034025678482.dkr.ecr.us-west-2.amazonaws.com/php-nginx-fpm:php5.6 -f Dockerfile-56
-    - docker build -t 034025678482.dkr.ecr.us-west-2.amazonaws.com/php-nginx-fpm:php7.0 -f Dockerfile-70
+    - docker build -t 034025678482.dkr.ecr.us-west-2.amazonaws.com/php-nginx-fpm:php5.6 -f Dockerfile-56 .
+    - docker build -t 034025678482.dkr.ecr.us-west-2.amazonaws.com/php-nginx-fpm:php7.0 -f Dockerfile-70 .
 
 deployment:
   prod:

@@ -20,9 +20,9 @@ deployment:
   prod:
     branch: master
     commands:
-      - docker tag 034025678482.dkr.ecr.us-west-2.amazonaws.com/php-nginx-fpm:php5.6 034025678482.dkr.ecr.us-west-2.amazonaws.com/php-nginx-fpm:php5.6-${CIRCLE_TAG:-latest}
-      - docker tag 034025678482.dkr.ecr.us-west-2.amazonaws.com/php-nginx-fpm:php7.0 034025678482.dkr.ecr.us-west-2.amazonaws.com/php-nginx-fpm:php7.0-${CIRCLE_TAG:-latest}
-      - docker push 034025678482.dkr.ecr.us-west-2.amazonaws.com/php-nginx-fpm:php5.6-${CIRCLE_TAG:-latest}
+      - docker tag 034025678482.dkr.ecr.us-west-2.amazonaws.com/php-nginx-fpm:php5.6 034025678482.dkr.ecr.us-west-2.amazonaws.com/php-nginx-fpm:php5.6-${git describe --abbrev=0 --tags}
+      - docker tag 034025678482.dkr.ecr.us-west-2.amazonaws.com/php-nginx-fpm:php7.0 034025678482.dkr.ecr.us-west-2.amazonaws.com/php-nginx-fpm:php7.0-${git describe --abbrev=0 --tags}
+      - docker push 034025678482.dkr.ecr.us-west-2.amazonaws.com/php-nginx-fpm:php5.6-${git describe --abbrev=0 --tags}
       - docker push 034025678482.dkr.ecr.us-west-2.amazonaws.com/php-nginx-fpm:php5.6
-      - docker push 034025678482.dkr.ecr.us-west-2.amazonaws.com/php-nginx-fpm:php7.0-${CIRCLE_TAG:-latest}
+      - docker push 034025678482.dkr.ecr.us-west-2.amazonaws.com/php-nginx-fpm:php7.0-${git describe --abbrev=0 --tags}
       - docker push 034025678482.dkr.ecr.us-west-2.amazonaws.com/php-nginx-fpm:php7.0

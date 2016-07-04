@@ -22,7 +22,7 @@ RUN packages=" \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
     libxml2-dev \
-    libgpgme11-dev \
+    gnupg \
     git \
     pdftk \
     ca-certificates \
@@ -38,7 +38,6 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
     && docker-php-ext-install soap iconv mcrypt bcmath mbstring pdo pdo_mysql zip tokenizer gd pcntl opcache
 
 RUN pecl install mongodb && docker-php-ext-enable mongodb
-RUN pecl install gnupg && docker-php-ext-enable gnupg
 
 ADD https://github.com/just-containers/s6-overlay/releases/download/v1.11.0.1/s6-overlay-amd64.tar.gz /tmp/
 RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C /
